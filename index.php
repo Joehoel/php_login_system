@@ -1,5 +1,10 @@
 <?php
 include "db_inc.php";
+
+// Initialize the session
+session_start();
+ 
+
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +21,7 @@ include "db_inc.php";
 </head>
 
 <body>
-  <div class="container mt-4">
+  <div class="container mt-4 " style="width: 20vw;">
     <form>
       <!-- form-group// -->
       <div class="form-group input-group">
@@ -51,12 +56,3 @@ include "db_inc.php";
 </body>
 
 </html>
-
-
-<?php
-// Database setup
-include "db_inc.php";
-$mysql = mysqli_connect($db_server, $db_user, $db_password, $db_name) or die ('Failed to connect to database');
-$query = "SELECT * FROM bbc";
-$result = mysqli_query($mysql, $query);
-?>
