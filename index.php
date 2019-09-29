@@ -1,12 +1,3 @@
-<?php
-include "db_inc.php";
-
-// Initialize the session
-session_start();
- 
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,20 +12,60 @@ session_start();
 </head>
 
 <body>
+  <?php
+  include "config.php";
+  session_start();
+  $error = null;
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      // username and password sent from form
+    
+      $myusername = mysqli_real_escape_string($db, $_POST['username']);
+      $mypassword = mysqli_real_escape_string($db, $_POST['password']);
+
+      $mypassword = md5($mypassword);
+    
+      $sql = "SELECT id FROM users WHERE username = '$myusername' and password = '$mypassword'";
+      $result = mysqli_query($db, $sql);
+      $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+      // $active = $row['active'];
+    
+      $count = mysqli_num_rows($result);
+    
+      // If result matched $myusername and $mypassword, table row must be 1 row
+  
+      if ($count == 1) {
+          $_SESSION['username'];
+          $_SESSION['login_user'] = $myusername;
+       
+          header("location: welcome.php");
+      } else {
+          $error = "Your Login Name or Password is invalid";
+      }
+  }
+    ?>
   <div class="container mt-4 " style="width: 20vw;">
-    <form>
+    <?php if (isset($error)) { ?>
+    <div class="alert alert-danger" role="alert">
+      <?php  echo $error; ?>
+    </div>
+    <?php } ?>
+    <form method="post">
       <!-- form-group// -->
       <div class="form-group input-group">
         <div class="input-group-prepend">
           <span class="input-group-text"> <i class="fas fa-user"></i> </span>
         </div>
-        <input name="" class="form-control" placeholder="Username" type="text">
-      </div> <!-- form-group// -->
+        <input value="<?php if (isset($_POST['username'])) {
+        echo $_POST['username'];
+    } ?>" name="username" class="form-control" placeholder="Username" type="text" autocomplete="off">
+      </div>
+      <!-- form-group// -->
       <div class="form-group input-group">
         <div class="input-group-prepend">
           <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
         </div>
-        <input class="form-control" placeholder="Password" type="password">
+        <input value="<?php $password;?>" class="form-control" placeholder="Password" type="password" name="password"
+          autocomplete="off">
       </div> <!-- form-group// -->
       <!-- form-group// -->
       <div class="form-group">
