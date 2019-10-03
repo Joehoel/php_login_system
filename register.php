@@ -5,8 +5,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+  <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-hVpXlpdRmJ+uXGwD5W6HZMnR9ENcKVRn855pPbuI/mwPIEKAuKgTKgGksVGmlAvt" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
   <title>Register</title>
 </head>
@@ -16,78 +18,71 @@
   include "config.php";
   session_start();
 
-  // initializing variables
+  // Initializing variables
   $username = '';
   $error = null;
-  
-  // connect to the database
 
- 
- // REGISTER USER
- if (isset($_POST['reg_user'])) {
-   
-   // receive all input values from the form
-     $username = mysqli_real_escape_string($db, $_POST['username']);
-     $password = mysqli_real_escape_string($db, $_POST['password']);
-     $confirm_password = mysqli_real_escape_string($db, $_POST['confirm_password']);
+  // REGISTER USER
+  if (isset($_POST['reg_user'])) {
+      $_POST['username'] = htmlspecialchars($_POST['username']);
+      $_POST['password'] = htmlspecialchars($_POST['password']);
+      $_POST['confirm_password'] = htmlspecialchars($_POST['confirm_password']);
 
-     //  if (empty($username)) {
-     //      $error = "Username is required";
-     //  } elseif (empty($password)) {
-     //      $error ="Password is required";
-     //  } elseif ($password != $confirm_password) {
-     //      $error =  "The two passwords do not match";
-     //  }
-     $uppercase = preg_match('@[A-Z]@', $password);
-     $lowercase = preg_match('@[a-z]@', $password);
-     $number    = preg_match('@[0-9]@', $password);
+      // Receive all input values from the form
+      $username = mysqli_real_escape_string($db, $_POST['username']);
+      $password = mysqli_real_escape_string($db, $_POST['password']);
+      $confirm_password = mysqli_real_escape_string($db, $_POST['confirm_password']);
 
-     if (empty($username)) {
-         $error = "Username is required";
-     } elseif (empty($password)) {
-         $error ="Password is required";
-     } elseif ($password != $confirm_password) {
-         $error =  "The two passwords do not match";
-     } elseif (!$uppercase || !$lowercase || !$number || strlen($password) < 6) {
-         $error = 'Password should be at least 6 characters in length and should include at least one upper case letter, one number, and one special character.';
-     }
- 
-     // form validation: ensure that the form is correctly filled ...
-     // by adding (array_push()) corresponding error unto $errors array
-     // first check the database to make sure
-     // a user does not already exist with the same username and/or email
-     $user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
-     $result = mysqli_query($db, $user_check_query);
-     $user = mysqli_fetch_assoc($result);
-   
-     if ($user) { // if user exists
-         if ($user['username'] === $username) {
-             $error =  "Username already exists";
-         }
-     }
- 
-     // Finally, register user if there are no errors in the form
-     if (!$error) {
-         $password = md5($password);//encrypt the password before saving in the database
- 
-         $query = "INSERT INTO users (username, password) 
+      $uppercase = preg_match('@[A-Z]@', $password);
+      $lowercase = preg_match('@[a-z]@', $password);
+      $number    = preg_match('@[0-9]@', $password);
+
+      if (empty($username)) {
+          $error = "Username is required";
+      } elseif (empty($password)) {
+          $error = "Password is required";
+      } elseif ($password != $confirm_password) {
+          $error =  "The two passwords do not match";
+      } elseif (!$uppercase || !$lowercase || !$number || strlen($password) < 6) {
+          $error = 'Password should be at least 6 characters in length and should include at least one upper case letter, one number, and one special character.';
+      }
+
+      $user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
+      $result = mysqli_query($db, $user_check_query);
+      $user = mysqli_fetch_assoc($result);
+
+      if ($user) { // if user exists
+          if ($user['username'] === $username) {
+              $error =  "Username already exists";
+          }
+      }
+
+      if (!$error) {
+          // Capitalize first letter of username
+          $username = ucfirst($username);
+
+          //encrypt the password before saving in the database
+          $password = md5($password);
+
+          $query = "INSERT INTO users (username, password) 
            VALUES('$username', '$password')";
-         mysqli_query($db, $query);
-         $_SESSION['login_user'] = $username;
-         //  $_SESSION['success'] = "You are now logged in";
-         header('location: welcome.php');
-     }
- }
- 
+          mysqli_query($db, $query);
+          $_SESSION['login_user'] = $username;
+          header('location: welcome.php');
+      }
+  }
+  mysqli_close($db);
   ?>
-  <div class="wrapper">
-    <div class="container mt-4" style="width: 20vw;">
+  <div class="container" style="width: 500px; margin-top: 17rem;">
+    <div class="wrapper">
       <?php if (isset($error)) { ?>
       <div class="alert alert-danger" role="alert">
-        <?php  echo $error; ?>
+        <?php echo $error; ?>
       </div>
       <?php } ?>
-      <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+      <form
+        action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
+        method="post">
         <div class="form-group input-group">
           <div class="input-group-prepend">
             <span class="input-group-text"> <i class="fa fa-user"></i> </span>
