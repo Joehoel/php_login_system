@@ -23,12 +23,12 @@
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
       // username and password sent from form
 
-      $myusername = mysqli_real_escape_string($db, $_POST['username']);
-      $mypassword = mysqli_real_escape_string($db, $_POST['password']);
+      $username = mysqli_real_escape_string($db, $_POST['username']);
+      $password = mysqli_real_escape_string($db, $_POST['password']);
 
-      $mypassword = md5($mypassword);
+      $password = md5($password);
 
-      $sql = "SELECT id FROM users WHERE username = '$myusername' and password = '$mypassword'";
+      $sql = "SELECT id FROM users WHERE username = '$username' and password = '$password'";
       $result = mysqli_query($db, $sql);
       $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
       // $active = $row['active'];
@@ -37,7 +37,7 @@
 
       if ($count == 1) {
           $_SESSION['username'];
-          $_SESSION['login_user'] = $myusername;
+          $_SESSION['login_user'] = $username;
 
           header("location: welcome.php");
       } else {
@@ -67,8 +67,8 @@
           <div class="input-group-prepend">
             <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
           </div>
-          <input value="<?php $password; ?>" class="form-control"
-            placeholder="Password" type="password" name="password" autocomplete="off">
+          <input value="<?php $password; ?>" class="form-control" placeholder="Password" type="password" name="password"
+            autocomplete="off">
         </div> <!-- form-group// -->
         <!-- form-group// -->
         <div class="form-group">

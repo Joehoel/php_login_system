@@ -1,32 +1,8 @@
 <?php
 include "session.php";
 
-$editValue = 'readonly';
-
 $error = null;
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//     // username and password sent from form
 
-//     $username = mysqli_real_escape_string($db, $_POST['username']);
-//     $password = mysqli_real_escape_string($db, $_POST['password']);
-//     $newPassword = mysqli_real_escape_string($db, $_POST['new-password']);
-
-//     $password = md5($password);
-
-//     $sql = "SELECT id FROM users WHERE username = '$username' and password = '$password'";
-//     $result = mysqli_query($db, $sql);
-//     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-//     // $active = $row['active'];
-
-//     $count = mysqli_num_rows($result);
-
-//     if ($count == 1) {
-//         $sql = "UPDATE users SET password = $newPassword WHERE password = $password";
-//         mysqli_query($db, $sql);
-//     } else {
-//         $error = "Your Login Name or Password is invalid";
-//     }
-// }
 if (isset($_POST['edit'])) {
     // Set variables
     $newUsername = $_POST['new-username'];
@@ -47,8 +23,12 @@ if (isset($_POST['edit'])) {
     $currentPassword = $row['password'];
     $count = mysqli_num_rows($result);
 
-    // Password conditions
-    
+    // Check if users exists
+    $user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
+    $result = mysqli_query($db, $user_check_query);
+    $user = mysqli_fetch_assoc($result);
+
+    // Conditions
     if (empty($newUsername) || empty($password) || empty($newPassword) || empty($confirmNewPassword)) {
         $error = 'Please fill in all fields';
     } elseif ($currentPassword !== $password) {
@@ -59,6 +39,10 @@ if (isset($_POST['edit'])) {
         $error = 'New password should be at least 6 characters in length and should include at least one upper case letter, one number, and one special character.';
     } elseif ($currentPassword == $password && $newPassword == $confirmNewPassword && $uppercase && $lowercase && $number) {
         $error = null;
+    } elseif ($user) {         
+        if ($user['username'] === $username) {
+            $error =  "Username already exists";
+        }
     }
 
     // When form succeeds
@@ -124,7 +108,6 @@ if (isset($_POST['edit'])) {
         <?php } ?>
         <h2 class="my-4">Edit Profile</h2>
         <form action="profile.php" method="post">
-
           <div class="form-group">
             <label for="new-username">New Username</label>
             <input autocomplete="off" class="form-control" type="text" name="new-username">
