@@ -13,7 +13,13 @@ if (isset($_POST['edit'])) {
     $uppercase = preg_match('@[A-Z]@', $newPassword);
     $lowercase = preg_match('@[a-z]@', $newPassword);
     $number    = preg_match('@[0-9]@', $newPassword);
-    
+
+    // Escape input fields
+    $newUsername = mysqli_real_escape_string($db, $newUsername);
+    $password = mysqli_real_escape_string($db, $password);
+    $newPassword = mysqli_real_escape_string($db, $newPassword);
+    $confirmNewPassword = mysqli_real_escape_string($db, $confirmNewPassword);
+
     $password = md5($password);
 
     // MySQL
@@ -39,7 +45,7 @@ if (isset($_POST['edit'])) {
         $error = 'New password should be at least 6 characters in length and should include at least one upper case letter, one number, and one special character.';
     } elseif ($currentPassword == $password && $newPassword == $confirmNewPassword && $uppercase && $lowercase && $number) {
         $error = null;
-    } elseif ($user) {         
+    } elseif ($user) {
         if ($user['username'] === $username) {
             $error =  "Username already exists";
         }

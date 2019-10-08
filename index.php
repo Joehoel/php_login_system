@@ -58,6 +58,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text"> <i class="fas fa-user"></i> </span>
           </div>
+
           <input value="<?php if (isset($_POST['username'])) {
       echo $_POST['username'];
   } ?>" name="username" class="form-control" placeholder="Username" type="text" autocomplete="off">
@@ -67,8 +68,8 @@
           <div class="input-group-prepend">
             <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
           </div>
-          <input value="<?php $password; ?>" class="form-control" placeholder="Password" type="password" name="password"
-            autocomplete="off">
+          <input value="<?php $password; ?>" class="form-control"
+            placeholder="Password" type="password" name="password" autocomplete="off">
         </div> <!-- form-group// -->
         <!-- form-group// -->
         <div class="form-group">
