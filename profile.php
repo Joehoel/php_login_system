@@ -31,7 +31,7 @@ if (isset($_POST['edit'])) {
     $currentPassword = $row['password'];
 
     // Check if users exists
-    $user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
+    $user_check_query = "SELECT username FROM users WHERE username='$username'";
     $result = mysqli_query($db, $user_check_query);
     $user = mysqli_fetch_assoc($result);
 
@@ -44,14 +44,12 @@ if (isset($_POST['edit'])) {
         $error = 'New passwords do not match';
     } elseif (!$uppercase || !$lowercase || !$number || strlen($newPassword) < 6) {
         $error = 'New password should be at least 6 characters in length and should include at least one upper case letter, one number, and one special character.';
+    } elseif ($user !== null) {
+        $error =  "Username already exists";
     } elseif ($currentPassword == $password && $newPassword == $confirmNewPassword && $uppercase && $lowercase && $number) {
         $error = null;
-    } elseif ($user) {
-        if ($user['username'] === $username) {
-            $error =  "Username already exists";
-        }
     }
-
+    
     // When form succeeds
     if (!$error) {
         $password = md5($newPassword);
