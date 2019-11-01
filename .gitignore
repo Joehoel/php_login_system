@@ -1,2 +1,2 @@
-auth.php
-db_inc.php
+session.php
+config.php
