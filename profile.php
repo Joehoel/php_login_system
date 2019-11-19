@@ -3,10 +3,10 @@ include "config/session.php";
 
 $error = null;
 
-$user = $_SESSION['user'];
+$username = $_SESSION['username'];
 
 if (isset($_POST['delete'])) {
-    $get_delete_query = "DELETE FROM users WHERE username='$user'";
+    $get_delete_query = "DELETE FROM users WHERE username='$username'";
     mysqli_query($db, $get_delete_query);
     header('location: register.php');
 };
@@ -14,7 +14,7 @@ if (isset($_POST['delete'])) {
 if (isset($_POST['edit'])) {
     // Set variables
     $newUsername = $_POST['new-username'];
-    $username = ucfirst(strtolower($_SESSION['login_user']));
+    // $username = ucfirst(strtolower($_SESSION['login_user']));
     $password = $_POST['password'];
     $newPassword = $_POST['new-password'];
     $confirmNewPassword = $_POST['confirm-new-password'];
@@ -65,10 +65,9 @@ if (isset($_POST['edit'])) {
         mysqli_query($db, $sql1);
         mysqli_query($db, $sql2);
         $message = 'Profile updated';
-        $_SESSION['newUsername'] = $newUsername;
+        $_SESSION['username'] = $newUsername;
     }
     // }
   // check();
 }
 include "views/profile.php";
-?>

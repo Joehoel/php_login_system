@@ -17,10 +17,10 @@ include "functions/logout.php";
 // if (isset($_SESSION['newUsername'])) {
 //     $_SESSION['user'] = $_SESSION['newUsername'];
 // }
+// header("location: ./welcome.php");
+// die();
+// header("location: index.php");
+// die();
 if (!isset($_SESSION['username'])) {
-    // header("location: ./welcome.php");
-    // die();
-    session_destroy();
-    // header("location: index.php");
-    // die();
+    // session_destroy();
 }
