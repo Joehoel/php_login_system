@@ -62,4 +62,3 @@ mysqli_close($db);
 
 // Include register markup
 include "views/register.php";
-?>

@@ -11,7 +11,8 @@ function query($db, $query, $field)
     }
 }
 
-function insert($db, $query) {
+function insert($db, $query)
+{
     mysqli_query($db, $query);
 }
 
