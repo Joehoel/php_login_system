@@ -22,7 +22,7 @@
                 <?php echo $error; ?>
             </div>
             <?php endif; ?>
-            <form method="post" class="">
+            <form method="post">
                 <!-- form-group// -->
                 <div class="form-group input-group">
                     <div class="input-group-prepend">
@@ -40,7 +40,7 @@
                 </div> <!-- form-group// -->
                 <!-- form-group// -->
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block"> Login </button>
+                    <button type="submit" class="btn btn-primary btn-block" name="login"> Login </button>
                 </div> <!-- form-group// -->
                 <p class="text-center">Dont have an account? <a href="./register.php">Register</a> </p>
             </form>

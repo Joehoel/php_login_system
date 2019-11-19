@@ -11,6 +11,10 @@ function query($db, $query, $field)
     }
 }
 
+function insert($db, $query) {
+    mysqli_query($db, $query);
+}
+
 function escapeString($db, $string)
 {
     return $string = mysqli_real_escape_string($db, $string);

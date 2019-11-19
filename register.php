@@ -2,8 +2,6 @@
 // TODO: change to session.php and fix variables so that there is no conflict
 include "config/session.php";
 
-session_start();
-
 // Initializing variables
 $username = '';
 $error = null;
@@ -35,30 +33,33 @@ if (isset($_POST['reg_user'])) {
         $error = 'Password should be at least 6 characters in length and should include at least one upper case letter, one number, and one special character.';
     }
 
+    // Check if username doesnt already exists in database
     $user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
     $user = query($db, $user_check_query, "username");
 
-    if ($user) { // if user exists
-        if ($user['username'] === $username) {
+    if ($user) {
+        if ($user === $username) {
             $error =  "Username already exists";
         }
     }
 
     if (!$error) {
-        // Capitalize first letter of username
-        $username = ucfirst($username);
-
         // Encrypt the password
         $password = md5($password);
 
         // Saving in the database
         $query = "INSERT INTO users (username, password) VALUES('$username', '$password')";
-        mysqli_query($db, $query);
-        $_SESSION['login_user'] = $username;
+        insert($db, $query);
+
+        // Save username in session and redirect
+        $_SESSION['username'] = $username;
         header('location: welcome.php');
     }
 }
+
+// Close database
 mysqli_close($db);
 
+// Include register markup
 include "views/register.php";
 ?>

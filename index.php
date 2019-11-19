@@ -1,11 +1,10 @@
 <?php
 include "config/session.php";
 
-session_start();
+
 
 $error = null;
-$_SESSION['login_user'] = null;
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_POST['login'])) {
     // username and password sent from form
 
     $username = mysqli_real_escape_string($db, $_POST['username']);
@@ -13,22 +12,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $password = md5($password);
 
-    $sql = "SELECT id FROM users WHERE username = '$username' and password = '$password'";
-    $result = mysqli_query($db, $sql);
-    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    // $active = $row['active'];
+    $get_existance_query = "SELECT * FROM users WHERE username = '$username' and password = '$password'";
+    $result = query($db, $get_existance_query, "id");
 
-    $count = mysqli_num_rows($result);
-
-    if ($count == 1) {
-        $_SESSION['username'];
-        $_SESSION['login_user'] = $username;
-
+    if ($result) {
+        $_SESSION['username'] = $username;
         header("location: welcome.php");
     } else {
         $error = "Your username or password is invalid";
     }
 }
-
 include "views/index.php";
 ?>

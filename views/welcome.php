@@ -28,12 +28,13 @@
                     <a class="nav-link" href="./profile.php">Profile</a>
                 </li>
             </ul>
-            <a class="btn btn-outline-secondary my-2 mr-sm-2" style="width: auto" href="./profile.php">Edit profile</a>
-            <a class="btn btn-secondary my-2 my-sm-0" style="width: auto" href="logout.php">Sign Out</a>
+            <form action="./functions/logout.php" method="post">
+                <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit" style="width: auto" name="logout">Sign Out</button>
+            </form>
         </div>
     </nav>
     <div class="container d-flex align-items-center text-center justify-content-center flex-column">
-        <h1 class="my-4">Welcome <strong><?php echo $user; ?></strong>
+        <h1 class="my-4">Welcome <strong><?php echo $username; ?></strong>
         </h1>
 
         <div class="card">

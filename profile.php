@@ -70,6 +70,5 @@ if (isset($_POST['edit'])) {
     // }
   // check();
 }
-
 include "views/profile.php";
 ?>

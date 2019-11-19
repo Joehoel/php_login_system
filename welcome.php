@@ -1,8 +1,8 @@
 <?php
 include "config/session.php";
 
-$user = $_SESSION['user'];
-$get_timestamp_query = "SELECT * FROM users WHERE username='$user'";
+$username = $_SESSION['username'];
+$get_timestamp_query = "SELECT * FROM users WHERE username='$username'";
 $timestamp = query($db, $get_timestamp_query, "timestamp");
 
 include "views/welcome.php";
