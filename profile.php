@@ -9,8 +9,8 @@ if (!isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 
     if (isset($_POST['delete'])) {
-        $get_delete_query = "DELETE FROM users WHERE username='$username'";
-        mysqli_query($db, $get_delete_query);
+        $delete_account_query = "DELETE FROM users WHERE username='$username'";
+        delete($db, $delete_account_query);
         header('location: register.php');
     };
 
@@ -30,10 +30,6 @@ if (!isset($_SESSION['username'])) {
         foreach ($fields as $field) {
             escapeString($db, $field);
         };
-        // $newUsername = mysqli_real_escape_string($db, $newUsername);
-        // $password = mysqli_real_escape_string($db, $password);
-        // $newPassword = mysqli_real_escape_string($db, $newPassword);
-        // $confirmNewPassword = mysqli_real_escape_string($db, $confirmNewPassword);
 
         // Hash password
         $password = md5($password);
@@ -63,15 +59,13 @@ if (!isset($_SESSION['username'])) {
         // When there is no error
         if (!$error) {
             $password = md5($newPassword);
-            $sql1 = "UPDATE users SET password = '$password' WHERE username = '$username'";
-            $sql2 = "UPDATE users SET username = '$newUsername' WHERE username = '$username'";
-            mysqli_query($db, $sql1);
-            mysqli_query($db, $sql2);
+            $update_username_query = "UPDATE users SET username = '$newUsername' WHERE username = '$username'";
+            $update_password_query = "UPDATE users SET password = '$password' WHERE username = '$username'";
+            update($db, $update_username_query);
+            update($db, $update_password_query);
             $message = 'Profile updated';
             $_SESSION['username'] = $newUsername;
         }
-        // }
-  // check();
     }
     include "views/profile.php";
 }

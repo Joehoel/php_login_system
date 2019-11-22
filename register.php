@@ -1,5 +1,4 @@
 <?php
-// TODO: change to session.php and fix variables so that there is no conflict
 include "config/session.php";
 
 // Initializing variables
@@ -33,7 +32,7 @@ if (isset($_POST['reg_user'])) {
         $error = 'Password should be at least 6 characters in length and should include at least one upper case letter, one number, and one special character.';
     }
 
-    // Check if username doesnt already exists in database
+    // Check if username does not already exists in database
     $user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
     $user = query($db, $user_check_query, "username");
 
