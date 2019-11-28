@@ -4,7 +4,7 @@ function query($db, $query, $field)
   $result = mysqli_query($db, $query);
 
   if (!$result) {
-    $error = "Fout in query";
+    return $error = "Wrong query";
   } else {
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
     return  $row[$field];

@@ -1,5 +1,6 @@
 <?php
-function login($db, $username, $password) {
+function login($db, $username, $password)
+{
     $username = mysqli_real_escape_string($db, $_POST['username']);
     $password = mysqli_real_escape_string($db, $_POST['password']);
 
