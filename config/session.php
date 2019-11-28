@@ -2,6 +2,8 @@
 session_start();
 include 'config.php';
 include "functions/database.php";
+include "functions/register.php";
+include "functions/login.php";
 
 if (isset($_POST['logout'])) {
     session_destroy();
