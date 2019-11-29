@@ -1,9 +1,6 @@
 <?php
 include "config/session.php";
 
-// Initializing variables
-$error = null;
-
 // Register
 if (isset($_POST['reg_user'])) {
     // Escape strings
@@ -11,12 +8,12 @@ if (isset($_POST['reg_user'])) {
     $password = escape($db, $_POST['password']);
     $confirm_password = escape($db, $_POST['confirm_password']);
 
-    // If error then it function returns error otherwise, register
+    // If error then the function returns error otherwise, register
     $error = register($db, $username, $password, $confirm_password);
-}
 
-// Close database
-mysqli_close($db);
+    // Close database
+    mysqli_close($db);
+}
 
 // Include register page markup
 include "views/register.php";

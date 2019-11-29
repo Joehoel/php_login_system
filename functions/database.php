@@ -7,7 +7,7 @@ function query($db, $query, $field)
     return $error = "Wrong query";
   } else {
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    return  $row[$field];
+    return $row[$field];
   }
 }
 
@@ -25,10 +25,3 @@ function delete($db, $query)
 {
   mysqli_query($db, $query);
 }
-
-
-
-function escapeString($db, $string)
-{
-  return $string = mysqli_real_escape_string($db, $string);
-};

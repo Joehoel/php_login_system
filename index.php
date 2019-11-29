@@ -2,12 +2,12 @@
 // Includes
 include "config/session.php";
 
-// Initialize error variable
-$error = null;
-
 // When login for is submitted
 if (isset($_POST['login'])) {
     $error = login($db, $_POST['username'], $_POST['password']);
+
+    // Close database
+    mysqli_close($db);
 }
 
 // Include login page markup

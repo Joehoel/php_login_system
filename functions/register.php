@@ -36,9 +36,3 @@ function register($db, $username, $password, $confirm_password)
         return $error = null;
     }
 }
-
-function escape($db, $string)
-{
-    $string = htmlspecialchars($string);
-    return $string = mysqli_real_escape_string($db, $string);
-};
