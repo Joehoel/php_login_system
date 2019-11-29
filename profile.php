@@ -17,7 +17,7 @@ if (!isset($_SESSION['username'])) {
   };
 
   if (isset($_POST['edit'])) {
-    $text = edit($db, $_POST['new-username'], $_POST['password'], $_POST['new-password'], $_POST['confirm_new_password']);
+    $text = edit($db, $_POST['new-username'], $_POST['password'], $_POST['new-password'], $_POST['confirm-new-password']);
 
     // Get error or message
     if ($text[1] == true) {
